@@ -3,8 +3,6 @@ package com.example.theplug;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,27 +33,23 @@ public class SettingsActivity extends AppCompatActivity {
     public String current = storedUsername;   //the current loggedin user
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO)
-        {
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
             setTheme(R.style.lightTheme);
-        }else{
+        } else {
             setTheme(R.style.darkTheme);
         }
         setContentView(R.layout.activity_settings);
 
         Switch themeSwitch = findViewById(R.id.themeFlip);
 
-        themeSwitch.setOnClickListener(new View.OnClickListener(){
+        themeSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO)
-                {
+            public void onClick(View v) {
+                if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                }else{
+                } else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 }
 
@@ -70,12 +64,12 @@ public class SettingsActivity extends AppCompatActivity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 prodDeleter();
+                prodDeleter();
             }
         });
     }
 
-    public void init(){
+    public void init() {
 
         inputProdName = (EditText) findViewById(R.id.nameProd);
         editButton = (Button) findViewById(R.id.editProd);
@@ -83,15 +77,14 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
-    public void prodDeleter(){
-        String pname  = inputProdName.getText().toString();
+    public void prodDeleter() {
+        String pname = inputProdName.getText().toString();
         getUsername test = new getUsername();
         test.execute("Username", pname);
     }
 
 
-
-    class getUsername extends AsyncTask<String, Void, String>{
+    class getUsername extends AsyncTask<String, Void, String> {
 
         String name = inputProdName.getText().toString();
         String prodUser = "";
@@ -100,18 +93,17 @@ public class SettingsActivity extends AppCompatActivity {
         protected String doInBackground(String... strings) {
             String type = strings[0];
             String prod = strings[1];
-            if(type.equals("Username")){
-                try{
+            if (type.equals("Username")) {
+                try {
                     String response = "";
                     URL url = new URL("https://www-student.cse.buffalo.edu/CSE442-542/2020-spring/cse-442ac/getUsername.php?name=" + prod);
                     HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
                     httpCon.setRequestMethod("GET");
 
                     InputStream inStr = httpCon.getInputStream();
-                    BufferedReader buffR = new BufferedReader(new InputStreamReader(inStr,"iso-8859-1"));
+                    BufferedReader buffR = new BufferedReader(new InputStreamReader(inStr, "iso-8859-1"));
                     String line = "";
-                    while((line = buffR.readLine()) != null)
-                    {
+                    while ((line = buffR.readLine()) != null) {
                         response += line;
                     }
                     buffR.close();
@@ -132,29 +124,24 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(String s)
-        {
-            if(s.equals("Username Recieved")){
-                if(prodUser.equals(MainActivity.storedUsername)) {
+        protected void onPostExecute(String s) {
+            if (s.equals("Username Recieved")) {
+                if (prodUser.equals(MainActivity.storedUsername)) {
                     NewProductActivity npa = new NewProductActivity(SettingsActivity.this);
                     npa.execute("delete", name);
                     finish();
                     startActivity(getIntent());
-                }else{
+                } else {
                     Toast incorrect = Toast.makeText(getApplicationContext(), "Not your product!", Toast.LENGTH_SHORT);
                     incorrect.show();
                 }
-            }else{
+            } else {
                 Toast incorrect = Toast.makeText(getApplicationContext(), "Invalid Product", Toast.LENGTH_SHORT);
                 incorrect.show();
             }
             super.onPostExecute(s);
         }
     }
-
-
-
-
 
 
 }

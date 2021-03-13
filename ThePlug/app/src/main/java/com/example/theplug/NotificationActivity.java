@@ -1,14 +1,8 @@
 package com.example.theplug;
 
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.TaskStackBuilder;
 
 public class NotificationActivity extends AppCompatActivity {
 
@@ -44,7 +38,7 @@ public class NotificationActivity extends AppCompatActivity {
 //        mNotificationManager.notify(0, mBuilder.build());
     }
 
-    public void init(){
+    public void init() {
 
 
     }

@@ -1,4 +1,4 @@
-#Tue May 05 20:00:03 EDT 2020
-base.0=C\:\\Users\\John\\AndroidStudioProjects\\cse442-semester-project-talking-apple-juice\\ThePlug\\app\\build\\intermediates\\dex\\debug\\out\\classes.dex
+#Fri Mar 12 21:57:24 EST 2021
+base.0=/Users/aosaliu/Documents/Project/PlugApp/ThePlug/app/build/intermediates/dex/debug/mergeDexDebug/classes.dex
 path.0=classes.dex
 renamed.0=classes.dex

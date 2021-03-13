@@ -1,18 +1,19 @@
 package com.example.theplug;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.view.View;
-import android.widget.*;
-
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -159,7 +160,7 @@ public class ProfileActivity extends AppCompatActivity {
             } else if (s.equals("Pass Updated Successfully")) {
                 Toast suc = Toast.makeText(getApplicationContext(), "Password updated successfully.", Toast.LENGTH_SHORT);
                 suc.show();
-            } else if (s.equals("Email Updated Successfully")){
+            } else if (s.equals("Email Updated Successfully")) {
                 Toast suc = Toast.makeText(getApplicationContext(), "User updated successfully.", Toast.LENGTH_SHORT);
                 suc.show();
             }

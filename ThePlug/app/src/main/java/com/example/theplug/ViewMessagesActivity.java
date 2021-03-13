@@ -1,11 +1,9 @@
 package com.example.theplug;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -51,10 +49,9 @@ public class ViewMessagesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //set dark or light theme
-        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO)
-        {
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
             setTheme(R.style.lightTheme);
-        }else{
+        } else {
             setTheme(R.style.darkTheme);
         }
         setContentView(R.layout.activity_view_message);
@@ -74,25 +71,24 @@ public class ViewMessagesActivity extends AppCompatActivity {
 
         //creating an onclicklistener for the sendMsg button.
         //NOTE: I do this intead of setting the "android:OnClick" in the xml, since I usually need to pass data through on a button press, and I want to make sure the data is initialized/set first.
-        sendMsg.setOnClickListener(new View.OnClickListener(){
+        sendMsg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 msgContent = msgReply.getText().toString();
-                if(msgContent.trim().length() == 0)
-                {
+                if (msgContent.trim().length() == 0) {
                     //error toast: cant send empty message!
                     Toast err = Toast.makeText(getApplicationContext(), "Message cannot be empty.", Toast.LENGTH_SHORT);
                     err.show();
-                }else if(msgContent.contains("|") || msgContent.contains("*")) {
+                } else if (msgContent.contains("|") || msgContent.contains("*")) {
                     Toast err = Toast.makeText(getApplicationContext(), "Message cannot contain '|' or '*'.", Toast.LENGTH_SHORT);
                     err.show();
-                }else if(msgContent.length() > 198) {
+                } else if (msgContent.length() > 198) {
                     Toast err = Toast.makeText(getApplicationContext(), "Message is too long. Max 198 chars.", Toast.LENGTH_SHORT);
                     err.show();
-                }else if(MainActivity.storedUsername.equals(extras.getString("Sender"))) {
+                } else if (MainActivity.storedUsername.equals(extras.getString("Sender"))) {
                     Toast err = Toast.makeText(getApplicationContext(), "Can't send a message to yourself!", Toast.LENGTH_SHORT);
                     err.show();
-                }else{
+                } else {
                     BackgroundMessagerHelper bgms = new BackgroundMessagerHelper(); //new asynctask inner class instance to send the message
                     //execute it with passed parameters: "Send", app user's username, recipient user, pre-generated title of message, message response body text
                     bgms.execute("Send", MainActivity.storedUsername, extras.getString("Sender"), msgContent);
@@ -212,22 +208,19 @@ public class ViewMessagesActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(String s)
-        {
+        protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            if(s.equals("Retrieved"))
-            {
+            if (s.equals("Retrieved")) {
                 //we have an image to set the imageview to now.
                 senderPFP.setImageBitmap(temp);
-            }else if(s.equals("Msgs Retrieved")){
+            } else if (s.equals("Msgs Retrieved")) {
                 //update recyclerview to show the messages
                 msgList = new ArrayList();
 
-                if(parsedResp[0].equals(""))
-                {
+                if (parsedResp[0].equals("")) {
                     Toast suc = Toast.makeText(getApplicationContext(), "No messages yet.", Toast.LENGTH_SHORT);
                     suc.show();
-                }else{
+                } else {
                     for (String message : parsedResp) {
                         String[] contents = message.split("\\*");
                         msgList.add("From: " + contents[3] + " at " + contents[1] + "\n" + contents[0]);    //Arraylist that stores all those values
@@ -237,7 +230,7 @@ public class ViewMessagesActivity extends AppCompatActivity {
                     prevMsgsAdapter = new ViewProductAdapter(msgList);
                     prevMsgs.setAdapter(prevMsgsAdapter);
                 }
-            }else if(s.equals("Sent!")){
+            } else if (s.equals("Sent!")) {
                 Toast suc = Toast.makeText(getApplicationContext(), "Message sent.", Toast.LENGTH_SHORT);
                 suc.show();
                 msgReply.setText("");

@@ -4,7 +4,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,7 +27,7 @@ public class ReportActivity extends AppCompatActivity {
     public String reason;
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_reportuser);
@@ -55,28 +54,28 @@ public class ReportActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 reason = reason3.getText().toString();
-                new BackgroundReportHelper().execute("report", currentUser, toUser,reason);
+                new BackgroundReportHelper().execute("report", currentUser, toUser, reason);
             }
         });
     }
 
-    public void init(){
+    public void init() {
 
-      reason1 = findViewById(R.id.reportReason1);
-      reason2 = findViewById(R.id.reportReason2);
-      reason3 = findViewById(R.id.reportReason3);
-      currentUser = MainActivity.storedUsername;
-      toUser = ViewProductActivity.sellUSER;
+        reason1 = findViewById(R.id.reportReason1);
+        reason2 = findViewById(R.id.reportReason2);
+        reason3 = findViewById(R.id.reportReason3);
+        currentUser = MainActivity.storedUsername;
+        toUser = ViewProductActivity.sellUSER;
     }
 
-    class BackgroundReportHelper extends AsyncTask<String, Void, String>{
+    class BackgroundReportHelper extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... strings) {
             String type = strings[0];
 
-            if(type.equals("report")){
-                try{
+            if (type.equals("report")) {
+                try {
                     String currentUser = strings[1];
                     String toUser = strings[2];
                     String reportReason = strings[3];
@@ -88,7 +87,7 @@ public class ReportActivity extends AppCompatActivity {
                     httpCon.setDoOutput(true);
                     httpCon.setDoInput(true);
                     OutputStream outStr = httpCon.getOutputStream();
-                    BufferedWriter buffW = new BufferedWriter(new OutputStreamWriter(outStr,"UTF-8"));
+                    BufferedWriter buffW = new BufferedWriter(new OutputStreamWriter(outStr, "UTF-8"));
                     String req = URLEncoder.encode("frm", "UTF-8") + "=" + URLEncoder.encode(currentUser, "UTF-8")
                             + "&" + URLEncoder.encode("to", "UTF-8") + "=" + URLEncoder.encode(toUser, "UTF-8")
                             + "&" + URLEncoder.encode("rep", "UTF-8") + "=" + URLEncoder.encode(reportReason, "UTF-8");
@@ -102,7 +101,7 @@ public class ReportActivity extends AppCompatActivity {
                     BufferedReader buffR = new BufferedReader(new InputStreamReader(inStr, "iso-8859-1"));
                     String result = "";
                     String line = "";
-                    while((line = buffR.readLine()) != null){
+                    while ((line = buffR.readLine()) != null) {
                         result += line;
                     }
                     buffR.close();
@@ -121,10 +120,9 @@ public class ReportActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(String s)
-        {
+        protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            if(s.equals("Report Submitted")){
+            if (s.equals("Report Submitted")) {
                 Toast.makeText(getApplicationContext(), "User has be reported", Toast.LENGTH_SHORT).show();
             }
 

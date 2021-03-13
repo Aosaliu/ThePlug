@@ -1,39 +1,28 @@
 package com.example.theplug;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-import androidx.core.app.TaskStackBuilder;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.os.AsyncTask;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
-import android.provider.Settings;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.SearchView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -48,7 +37,6 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -63,8 +51,8 @@ public class HomeScreen extends AppCompatActivity {
     public ImageView bid1, bid2;
     public ImageView sale1, sale2;
     public int imageIndex = 0;
-    public int[] recentIDs = {0,0,0,0};
-    public String[] recentProdSeller = {"","","",""};
+    public int[] recentIDs = {0, 0, 0, 0};
+    public String[] recentProdSeller = {"", "", "", ""};
     public Bitmap temp = null;
     public String[] watchedIDs;
     public String[] biddedIDs;
@@ -84,10 +72,9 @@ public class HomeScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO)
-        {
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
             setTheme(R.style.lightTheme);
-        }else{
+        } else {
             setTheme(R.style.darkTheme);
         }
         //REQUEST 4 PRODUCTS FROM DATABASE, RECENT 2 OF SALEBID 1 AND RECENT 2 OF SALEBID 0
@@ -117,8 +104,8 @@ public class HomeScreen extends AppCompatActivity {
 
     }
 
-    public void init(){
-        searchProd  = findViewById(R.id.searchV);
+    public void init() {
+        searchProd = findViewById(R.id.searchV);
 
         //for now, the 4 products will just be the most recent posts by ID.
         bid1 = findViewById(R.id.bid1);
@@ -186,40 +173,37 @@ public class HomeScreen extends AppCompatActivity {
         notificationManager.notify(rand.nextInt(100000) + 100000, builder.build()); // add 100000 so notifs from previous method CANNOT interfere. odds still 1/100000 of overwrite.
     }
 
-    public void gotoSearch(View view){
+    public void gotoSearch(View view) {
         Intent intent = new Intent(this, SearchActivity.class);
         startActivity(intent);
     }
 
 
-    private void getProduct(){
+    private void getProduct() {
         //STEP 1: GET LATEST ID
         //STEP 2: GET LATESTID, LATESTID-1, LATESTID-2, LATESTID-3 AND STORE
         //STEP 3: PUT IMAGES FROM THESE IDS IN RESPECTIVE IMAGEBUTTONS AND ID'S THEIR CLICKHANDLERS
 
-        class GetImageData extends AsyncTask<String, Void, String>
-        {
+        class GetImageData extends AsyncTask<String, Void, String> {
             @Override
-            protected void onPreExecute(){
+            protected void onPreExecute() {
                 super.onPreExecute();
             }
 
             @Override
-            protected void onPostExecute(String s){
+            protected void onPostExecute(String s) {
                 super.onPostExecute(s);
-                if(s.equals("IDs Retrieved"))
-                {
+                if (s.equals("IDs Retrieved")) {
                     new GetImageData().execute("images", Integer.toString(recentIDs[0]));
-                }else if(s.equals("Image1 Retrieved"))
-                {
+                } else if (s.equals("Image1 Retrieved")) {
                     bid1.setImageBitmap(temp);
                     bid1.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             String ID = Integer.toString(recentIDs[0]);
                             prodOwner = recentProdSeller[0];
-                            if(!storedUsername.equals(prodOwner)) { //If the current user is not the same as the product seller.
-                                new GetImageData().execute("view", ID, storedUsername );
+                            if (!storedUsername.equals(prodOwner)) { //If the current user is not the same as the product seller.
+                                new GetImageData().execute("view", ID, storedUsername);
                             }
 
                             Intent intent = new Intent(HomeScreen.this, ViewProductActivity.class);
@@ -230,16 +214,15 @@ public class HomeScreen extends AppCompatActivity {
                     });
 
                     new GetImageData().execute("images", Integer.toString(recentIDs[1]));
-                }else if(s.equals("Image2 Retrieved"))
-                {
+                } else if (s.equals("Image2 Retrieved")) {
                     bid2.setImageBitmap(temp);
                     bid2.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             prodOwner = recentProdSeller[1];
                             String ID = Integer.toString(recentIDs[1]);
-                            if(!storedUsername.equals(prodOwner)) { //If the current user is not the same as the product seller.
-                                new GetImageData().execute("view", ID, storedUsername );
+                            if (!storedUsername.equals(prodOwner)) { //If the current user is not the same as the product seller.
+                                new GetImageData().execute("view", ID, storedUsername);
                             }
                             Intent intent = new Intent(HomeScreen.this, ViewProductActivity.class);
                             String assocID = Integer.toString(recentIDs[1]);
@@ -248,15 +231,14 @@ public class HomeScreen extends AppCompatActivity {
                         }
                     });
                     new GetImageData().execute("images", Integer.toString(recentIDs[2]));
-                }else if(s.equals("Image3 Retrieved"))
-                {
+                } else if (s.equals("Image3 Retrieved")) {
                     sale1.setImageBitmap(temp);
                     sale1.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             prodOwner = recentProdSeller[2];
                             String ID = Integer.toString(recentIDs[2]);
-                            if(!storedUsername.equals(prodOwner)) { //If the current user is not the same as the product seller. SELLUSER IS NULL.... Y?
+                            if (!storedUsername.equals(prodOwner)) { //If the current user is not the same as the product seller. SELLUSER IS NULL.... Y?
                                 new GetImageData().execute("view", ID, storedUsername);
                             }
                             Intent intent = new Intent(HomeScreen.this, ViewProductActivity.class);
@@ -266,15 +248,15 @@ public class HomeScreen extends AppCompatActivity {
                         }
                     });
                     new GetImageData().execute("images", Integer.toString(recentIDs[3]));
-                }else if(s.equals("Image4 Retrieved")){
+                } else if (s.equals("Image4 Retrieved")) {
                     sale2.setImageBitmap(temp);
                     sale2.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             prodOwner = recentProdSeller[3];
                             String ID = Integer.toString(recentIDs[3]);
-                            if(!storedUsername.equals(prodOwner)) { //If the current user is not the same as the product seller.
-                                new GetImageData().execute("view", ID, storedUsername );
+                            if (!storedUsername.equals(prodOwner)) { //If the current user is not the same as the product seller.
+                                new GetImageData().execute("view", ID, storedUsername);
                             }
 
                             Intent intent = new Intent(HomeScreen.this, ViewProductActivity.class);
@@ -283,53 +265,46 @@ public class HomeScreen extends AppCompatActivity {
                             startActivity(intent);
                         }
                     });
-                }else if(s.contains(" has viewed ")){
-                        for(String r : seen)
-                        {
-                            addNotification(r);
-                            new GetImageData().execute("removeView", r.split(" has viewed ")[1]); //SET THE VIEWS ON THIS PRODUCT TO BE NULL
-                        }
-                }else if(s.equals("Watches Retrieved")){
-                    if(watchedIDs.length > 0)
-                    {
-                        for(String anID: watchedIDs)
-                        {
+                } else if (s.contains(" has viewed ")) {
+                    for (String r : seen) {
+                        addNotification(r);
+                        new GetImageData().execute("removeView", r.split(" has viewed ")[1]); //SET THE VIEWS ON THIS PRODUCT TO BE NULL
+                    }
+                } else if (s.equals("Watches Retrieved")) {
+                    if (watchedIDs.length > 0) {
+                        for (String anID : watchedIDs) {
                             new GetImageData().execute("checkSold", anID);
                             //new script to check if this id exists in Sold
                         }
                     }
-                }else if(s.endsWith("has been sold!"))
-                {
+                } else if (s.endsWith("has been sold!")) {
                     addWatchedSoldNotification(s); //show a notif
                     new GetImageData().execute("removeWatch", storedUsername, s.substring(0, s.length() - 15)); //REMOVE FROM WATCHLIST THE PRODUCT WITH YOUR USERNAME AS WATCHER
-                }else if(s.equals("Bids Retrieved")){
-                    for(String id: biddedIDs)
-                    {
+                } else if (s.equals("Bids Retrieved")) {
+                    for (String id : biddedIDs) {
                         new GetImageData().execute("checkBidLeader", id);
                     }
-                }else if(s.equals("Checked...")){
-                    if(bidWinners.size() == biddedIDs.length)
-                    {
+                } else if (s.equals("Checked...")) {
+                    if (bidWinners.size() == biddedIDs.length) {
                         Iterator biderator = bidWinners.entrySet().iterator();
-                        while(biderator.hasNext())
-                        {
-                            Map.Entry en = (Map.Entry)biderator.next();
-                            if(!(en.getKey()).equals(storedUsername)) //a bid has been lost.
+                        while (biderator.hasNext()) {
+                            Map.Entry en = (Map.Entry) biderator.next();
+                            if (!(en.getKey()).equals(storedUsername)) //a bid has been lost.
                             {
-                                addWatchedSoldNotification("You have been outbid on item: " +en.getValue());
+                                addWatchedSoldNotification("You have been outbid on item: " + en.getValue());
                                 new GetImageData().execute("removeBid", storedUsername, en.getValue().toString()); //REMOVE FROM BIDLIST ALL BIDS WITH PRODUCT NAME AND YOUR USERNAME AS BIDDER
                             }
                         }
                     }
-                }else{
+                } else {
 
                 }
             }
+
             @Override
             protected String doInBackground(String... strings) {
                 String type = strings[0];
-                if(type.equals("ID"))
-                {
+                if (type.equals("ID")) {
                     String result = "0";
                     try {
                         URL url = new URL("https://www-student.cse.buffalo.edu/CSE442-542/2020-spring/cse-442ac/getRecentID.php");
@@ -371,9 +346,9 @@ public class HomeScreen extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     return "IDs Retrieved";
-                }else if(type.equals("images")){
+                } else if (type.equals("images")) {
                     String id = strings[1];
-                    String imgScript = "https://www-student.cse.buffalo.edu/CSE442-542/2020-spring/cse-442ac/retrieveImage.php?id=" +id;
+                    String imgScript = "https://www-student.cse.buffalo.edu/CSE442-542/2020-spring/cse-442ac/retrieveImage.php?id=" + id;
                     URL url = null;
                     Bitmap img = null;
                     try {
@@ -386,10 +361,10 @@ public class HomeScreen extends AppCompatActivity {
                     }
                     temp = img;
                     imageIndex++;
-                    return "Image" +imageIndex +" Retrieved";
+                    return "Image" + imageIndex + " Retrieved";
 
-                }else if(type.equals("view")){
-                    String updateView ="https://www-student.cse.buffalo.edu/CSE442-542/2020-spring/cse-442ac/UpdateView.php";
+                } else if (type.equals("view")) {
+                    String updateView = "https://www-student.cse.buffalo.edu/CSE442-542/2020-spring/cse-442ac/UpdateView.php";
                     try {
                         String id = strings[1];
                         String viewer = strings[2];
@@ -400,8 +375,8 @@ public class HomeScreen extends AppCompatActivity {
                         httpCon.setDoInput(true);
                         OutputStream outStr = httpCon.getOutputStream();
                         BufferedWriter buffW = new BufferedWriter(new OutputStreamWriter(outStr, "UTF-8"));
-                        String req = URLEncoder.encode("id","UTF-8") + "=" +URLEncoder.encode(id , "UTF-8")
-                                +"&" +URLEncoder.encode("view","UTF-8") + "=" +URLEncoder.encode(viewer , "UTF-8");
+                        String req = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8")
+                                + "&" + URLEncoder.encode("view", "UTF-8") + "=" + URLEncoder.encode(viewer, "UTF-8");
                         buffW.write(req);
                         buffW.flush();
                         buffW.close();
@@ -411,8 +386,7 @@ public class HomeScreen extends AppCompatActivity {
                         BufferedReader buffR = new BufferedReader(new InputStreamReader(inStr, "iso-8859-1"));
                         String result = "";
                         String line = "";
-                        while((line = buffR.readLine()) != null)
-                        {
+                        while ((line = buffR.readLine()) != null) {
                             result += line;
                         }
                         buffR.close();
@@ -425,12 +399,10 @@ public class HomeScreen extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     return "View Sent";
-                }
-                else if(type.equals("getViews"))
-                {
+                } else if (type.equals("getViews")) {
                     String result = "";
                     try {
-                        URL url = new URL("https://www-student.cse.buffalo.edu/CSE442-542/2020-spring/cse-442ac/getViews.php?un=" + storedUsername );
+                        URL url = new URL("https://www-student.cse.buffalo.edu/CSE442-542/2020-spring/cse-442ac/getViews.php?un=" + storedUsername);
                         HttpURLConnection httpCon;
                         httpCon = (HttpURLConnection) url.openConnection();
                         httpCon.setRequestMethod("GET");
@@ -458,11 +430,10 @@ public class HomeScreen extends AppCompatActivity {
                     }
                     return "error";
 
-                }else if(type.equals("getWatched"))
-                {
+                } else if (type.equals("getWatched")) {
                     String result = "";
                     try {
-                        URL url = new URL("https://www-student.cse.buffalo.edu/CSE442-542/2020-spring/cse-442ac/getWatchedItemsSEC.php?un=" +storedUsername);
+                        URL url = new URL("https://www-student.cse.buffalo.edu/CSE442-542/2020-spring/cse-442ac/getWatchedItemsSEC.php?un=" + storedUsername);
                         HttpURLConnection httpCon;
                         httpCon = (HttpURLConnection) url.openConnection();
                         httpCon.setRequestMethod("GET");
@@ -489,11 +460,10 @@ public class HomeScreen extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     return "error";
-                }else if(type.equals("checkSold"))
-                {
+                } else if (type.equals("checkSold")) {
                     String result = "";
                     try {
-                        URL url = new URL("https://www-student.cse.buffalo.edu/CSE442-542/2020-spring/cse-442ac/checkForSoldItemSEC.php?id=" +strings[1]);
+                        URL url = new URL("https://www-student.cse.buffalo.edu/CSE442-542/2020-spring/cse-442ac/checkForSoldItemSEC.php?id=" + strings[1]);
                         HttpURLConnection httpCon;
                         httpCon = (HttpURLConnection) url.openConnection();
                         httpCon.setRequestMethod("GET");
@@ -519,10 +489,10 @@ public class HomeScreen extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     return "error";
-                }else if(type.equals("updateBidStats")){
+                } else if (type.equals("updateBidStats")) {
                     String result = "";
                     try {
-                        URL url = new URL("https://www-student.cse.buffalo.edu/CSE442-542/2020-spring/cse-442ac/getBidIDs.php?un=" +storedUsername);
+                        URL url = new URL("https://www-student.cse.buffalo.edu/CSE442-542/2020-spring/cse-442ac/getBidIDs.php?un=" + storedUsername);
                         HttpURLConnection httpCon;
                         httpCon = (HttpURLConnection) url.openConnection();
                         httpCon.setRequestMethod("GET");
@@ -537,7 +507,7 @@ public class HomeScreen extends AppCompatActivity {
                         inStr.close();
                         httpCon.disconnect();
                         //at this point, we have some id's separated by "|"
-                        if(!result.equals("")) {
+                        if (!result.equals("")) {
                             biddedIDs = result.split("\\|");
                             return "Bids Retrieved";
                         }
@@ -551,10 +521,10 @@ public class HomeScreen extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     return "error";
-                }else if(type.equals("checkBidLeader")) {
+                } else if (type.equals("checkBidLeader")) {
                     String result = "";
                     try {
-                        URL url = new URL("https://www-student.cse.buffalo.edu/CSE442-542/2020-spring/cse-442ac/getCurrentBidWinner.php?id=" +strings[1]);
+                        URL url = new URL("https://www-student.cse.buffalo.edu/CSE442-542/2020-spring/cse-442ac/getCurrentBidWinner.php?id=" + strings[1]);
                         HttpURLConnection httpCon;
                         httpCon = (HttpURLConnection) url.openConnection();
                         httpCon.setRequestMethod("GET");
@@ -583,8 +553,8 @@ public class HomeScreen extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     return "error";
-                }else if(type.equals("removeBid")){
-                    String updateBid ="https://www-student.cse.buffalo.edu/CSE442-542/2020-spring/cse-442ac/removeFromBidListSEC.php";
+                } else if (type.equals("removeBid")) {
+                    String updateBid = "https://www-student.cse.buffalo.edu/CSE442-542/2020-spring/cse-442ac/removeFromBidListSEC.php";
                     try {
                         String user = strings[1];
                         String prod = strings[2];
@@ -595,8 +565,8 @@ public class HomeScreen extends AppCompatActivity {
                         httpCon.setDoInput(true);
                         OutputStream outStr = httpCon.getOutputStream();
                         BufferedWriter buffW = new BufferedWriter(new OutputStreamWriter(outStr, "UTF-8"));
-                        String req = URLEncoder.encode("un","UTF-8") + "=" +URLEncoder.encode(user, "UTF-8")
-                                +"&" +URLEncoder.encode("pn","UTF-8") + "=" +URLEncoder.encode(prod, "UTF-8");
+                        String req = URLEncoder.encode("un", "UTF-8") + "=" + URLEncoder.encode(user, "UTF-8")
+                                + "&" + URLEncoder.encode("pn", "UTF-8") + "=" + URLEncoder.encode(prod, "UTF-8");
                         buffW.write(req);
                         buffW.flush();
                         buffW.close();
@@ -606,8 +576,7 @@ public class HomeScreen extends AppCompatActivity {
                         BufferedReader buffR = new BufferedReader(new InputStreamReader(inStr, "iso-8859-1"));
                         String result = "";
                         String line = "";
-                        while((line = buffR.readLine()) != null)
-                        {
+                        while ((line = buffR.readLine()) != null) {
                             result += line;
                         }
                         buffR.close();
@@ -620,8 +589,8 @@ public class HomeScreen extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     return "error";
-                }else if(type.equals("removeWatch")){
-                    String updateWatch ="https://www-student.cse.buffalo.edu/CSE442-542/2020-spring/cse-442ac/removeFromWatchListSEC.php";
+                } else if (type.equals("removeWatch")) {
+                    String updateWatch = "https://www-student.cse.buffalo.edu/CSE442-542/2020-spring/cse-442ac/removeFromWatchListSEC.php";
                     try {
                         String user = strings[1];
                         String prod = strings[2];
@@ -632,8 +601,8 @@ public class HomeScreen extends AppCompatActivity {
                         httpCon.setDoInput(true);
                         OutputStream outStr = httpCon.getOutputStream();
                         BufferedWriter buffW = new BufferedWriter(new OutputStreamWriter(outStr, "UTF-8"));
-                        String req = URLEncoder.encode("un","UTF-8") + "=" +URLEncoder.encode(user, "UTF-8")
-                                +"&" +URLEncoder.encode("pn","UTF-8") + "=" +URLEncoder.encode(prod, "UTF-8");
+                        String req = URLEncoder.encode("un", "UTF-8") + "=" + URLEncoder.encode(user, "UTF-8")
+                                + "&" + URLEncoder.encode("pn", "UTF-8") + "=" + URLEncoder.encode(prod, "UTF-8");
                         buffW.write(req);
                         buffW.flush();
                         buffW.close();
@@ -643,8 +612,7 @@ public class HomeScreen extends AppCompatActivity {
                         BufferedReader buffR = new BufferedReader(new InputStreamReader(inStr, "iso-8859-1"));
                         String result = "";
                         String line = "";
-                        while((line = buffR.readLine()) != null)
-                        {
+                        while ((line = buffR.readLine()) != null) {
                             result += line;
                         }
                         buffR.close();
@@ -657,8 +625,8 @@ public class HomeScreen extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     return "error";
-                }else if(type.equals("removeView")){
-                    String updateView ="https://www-student.cse.buffalo.edu/CSE442-542/2020-spring/cse-442ac/removeFromViewSEC.php";
+                } else if (type.equals("removeView")) {
+                    String updateView = "https://www-student.cse.buffalo.edu/CSE442-542/2020-spring/cse-442ac/removeFromViewSEC.php";
                     try {
                         String prod = strings[1];
                         URL url = new URL(updateView);
@@ -668,7 +636,7 @@ public class HomeScreen extends AppCompatActivity {
                         httpCon.setDoInput(true);
                         OutputStream outStr = httpCon.getOutputStream();
                         BufferedWriter buffW = new BufferedWriter(new OutputStreamWriter(outStr, "UTF-8"));
-                        String req = URLEncoder.encode("pn","UTF-8") + "=" +URLEncoder.encode(prod, "UTF-8");
+                        String req = URLEncoder.encode("pn", "UTF-8") + "=" + URLEncoder.encode(prod, "UTF-8");
                         buffW.write(req);
                         buffW.flush();
                         buffW.close();
@@ -678,8 +646,7 @@ public class HomeScreen extends AppCompatActivity {
                         BufferedReader buffR = new BufferedReader(new InputStreamReader(inStr, "iso-8859-1"));
                         String result = "";
                         String line = "";
-                        while((line = buffR.readLine()) != null)
-                        {
+                        while ((line = buffR.readLine()) != null) {
                             result += line;
                         }
                         buffR.close();
@@ -692,7 +659,7 @@ public class HomeScreen extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     return "error";
-                }else{
+                } else {
                     return "error";
                 }
             }
@@ -711,49 +678,42 @@ public class HomeScreen extends AppCompatActivity {
     }
 
 
-
     @Override
-    public void onRestart()
-    {
+    public void onRestart() {
         super.onRestart();
         finish();
         startActivity(getIntent());
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem page){
-        if(page.getItemId() == R.id.accountButton)
-        {
+    public boolean onOptionsItemSelected(MenuItem page) {
+        if (page.getItemId() == R.id.accountButton) {
             Intent intent = new Intent(this, ProfileActivity.class);
             startActivity(intent);
             return true;
         }
-        if(page.getItemId() == R.id.messageButton)
-        {
+        if (page.getItemId() == R.id.messageButton) {
             Intent intent = new Intent(this, MessagesActivity.class);
             startActivity(intent);
             return true;
         }
-        if(page.getItemId() == R.id.transaction_historyButton)
-        {
+        if (page.getItemId() == R.id.transaction_historyButton) {
             Intent intent = new Intent(this, TransactionsActivity.class);
             startActivity(intent);
             return true;
         }
-        if(page.getItemId() == R.id.settingsButton)
-        {
+        if (page.getItemId() == R.id.settingsButton) {
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
             return true;
         }
-        if(page.getItemId() == R.id.newSaleButton)
-        {
+        if (page.getItemId() == R.id.newSaleButton) {
             Intent intent = new Intent(this, NewSaleActivity.class);
             startActivity(intent);
             return true;

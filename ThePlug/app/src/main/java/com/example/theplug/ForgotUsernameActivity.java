@@ -15,10 +15,9 @@ public class ForgotUsernameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO)
-        {
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
             setTheme(R.style.lightTheme);
-        }else{
+        } else {
             setTheme(R.style.darkTheme);
         }
         setContentView(R.layout.activity_forgot_username);
@@ -32,13 +31,13 @@ public class ForgotUsernameActivity extends AppCompatActivity {
         });
     }
 
-    public void retrieveUn(View v){ //REMEMBER TO IMPLEMENT WITH DATABASE
+    public void retrieveUn(View v) { //REMEMBER TO IMPLEMENT WITH DATABASE
         getUsername = findViewById(R.id.unEmailEditText4);
-        if(getUsername.getText().toString().equals("aosaliu@buffalo.edu") || getUsername.getText().toString().equals("ooladepo@buffalo.edu") || getUsername.getText().toString().equals("jtstone@buffalo.edu")){
+        if (getUsername.getText().toString().equals("aosaliu@buffalo.edu") || getUsername.getText().toString().equals("ooladepo@buffalo.edu") || getUsername.getText().toString().equals("jtstone@buffalo.edu")) {
             getUsername.getText().clear();
             Toast success = Toast.makeText(getApplicationContext(), "Account Found! Your username has been sent to your email", Toast.LENGTH_SHORT);
             success.show();
-        }else {
+        } else {
             getUsername.getText().clear();
             Toast success = Toast.makeText(getApplicationContext(), "Account Not Found! Please enter a valid email", Toast.LENGTH_SHORT);
             success.show();

@@ -2,13 +2,9 @@ package com.example.theplug;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Filter;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,7 +13,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -39,29 +34,27 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-         init();
+        init();
 
-         searchProdInfo prodList = new searchProdInfo();
-         prodList.execute("prodList");
-
-
+        searchProdInfo prodList = new searchProdInfo();
+        prodList.execute("prodList");
 
 
-         searchProd.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-             @Override
-             public boolean onQueryTextSubmit(String query) {
-                 return false;
-             }
+        searchProd.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
 
-             @Override
-             public boolean onQueryTextChange(String newText) {
-                 mAdapter.getFilter().filter(newText);
-                 return false;
-             }
-         });
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
     }
 
-    public void init(){
+    public void init() {
 
         searchProd = findViewById(R.id.prodSearch);
         searchRec = findViewById(R.id.searchResult);
@@ -114,29 +107,28 @@ public class SearchActivity extends AppCompatActivity {
 
 
         @Override
-        protected  void onPostExecute(String s) {
+        protected void onPostExecute(String s) {
             super.onPostExecute(s);
             if (s.equals("Products Recieved")) {
-                    for (String product : parsedResp) {
-                        String[] prod = product.split("\\|");
-                        if(prod[0].equals("0")){
-                        }else {
-                            productList.add(prod[1]);
-                        }
+                for (String product : parsedResp) {
+                    String[] prod = product.split("\\|");
+                    if (prod[0].equals("0")) {
+                    } else {
+                        productList.add(prod[1]);
                     }
-
-                    searchRec.setHasFixedSize(true);
-                    searchRec.setLayoutManager(new LinearLayoutManager(SearchActivity.this));
-                    mAdapter = new HomeScreenAdapter(productList);
-                    searchRec.setAdapter(mAdapter);
-
                 }
 
-                }
+                searchRec.setHasFixedSize(true);
+                searchRec.setLayoutManager(new LinearLayoutManager(SearchActivity.this));
+                mAdapter = new HomeScreenAdapter(productList);
+                searchRec.setAdapter(mAdapter);
 
+            }
 
         }
 
+
+    }
 
 
 }

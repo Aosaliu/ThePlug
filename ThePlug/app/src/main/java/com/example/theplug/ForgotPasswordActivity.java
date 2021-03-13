@@ -15,10 +15,9 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO)
-        {
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
             setTheme(R.style.lightTheme);
-        }else{
+        } else {
             setTheme(R.style.darkTheme);
         }
         setContentView(R.layout.activity_forgot_password);
@@ -27,14 +26,14 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     }
 
 
-    public void passReset(View v){ //REMEMBER TO IMPLEMENT WITH DATABASE FOR SPRINT 3
+    public void passReset(View v) { //REMEMBER TO IMPLEMENT WITH DATABASE FOR SPRINT 3
 
-        resetPass  =  findViewById(R.id.linkedEmailEditText4);
-        if(resetPass.getText().toString().equals("aosaliu@buffalo.edu") || resetPass.getText().toString().equals("ooladepo@buffalo.edu") || resetPass.getText().toString().equals("jtstone@buffalo.edu")){
+        resetPass = findViewById(R.id.linkedEmailEditText4);
+        if (resetPass.getText().toString().equals("aosaliu@buffalo.edu") || resetPass.getText().toString().equals("ooladepo@buffalo.edu") || resetPass.getText().toString().equals("jtstone@buffalo.edu")) {
             resetPass.getText().clear();
             Toast success = Toast.makeText(getApplicationContext(), "Account Found! Link to reset password has been sent to email", Toast.LENGTH_SHORT);
             success.show();
-        }else {
+        } else {
             resetPass.getText().clear();
             Toast success = Toast.makeText(getApplicationContext(), "Account Not Found! Please enter a valid email", Toast.LENGTH_SHORT);
             success.show();

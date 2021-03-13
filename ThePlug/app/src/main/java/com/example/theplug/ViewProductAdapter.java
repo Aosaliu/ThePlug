@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -20,7 +19,7 @@ public class ViewProductAdapter extends RecyclerView.Adapter<ViewProductAdapter.
     }
 
     @Override
-    public ViewProductAdapter.ViewHolder onCreateViewHolder( ViewGroup parent, int viewType) {
+    public ViewProductAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.soldrow, parent, false);
         return new ViewHolder(view);
     }

@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.theplug"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="1.0">
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -17,17 +17,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:testOnly="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar" > <!-- removes the default toolbar -->
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"> <!-- removes the default toolbar -->
         <activity
             android:name="com.example.theplug.HomeScreen"
-            android:parentActivityName="com.example.theplug.MainActivity" >
+            android:parentActivityName="com.example.theplug.MainActivity">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name="com.example.theplug.MainActivity" > <!-- removes the toolbar on the main page(Login page) -->
+        <activity android:name="com.example.theplug.MainActivity"> <!-- removes the toolbar on the main page(Login page) -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,7 +37,7 @@
         <activity
             android:name="com.example.theplug.ProfileActivity"
             android:parentActivityName="com.example.theplug.HomeScreen"
-            android:theme="@style/Theme.AppCompat.Light" >
+            android:theme="@style/Theme.AppCompat.Light">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
@@ -46,7 +46,7 @@
         </activity>
         <activity
             android:name="com.example.theplug.SettingsActivity"
-            android:theme="@style/Theme.AppCompat.Light" >
+            android:theme="@style/Theme.AppCompat.Light">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
@@ -55,7 +55,7 @@
         </activity>
         <activity
             android:name="com.example.theplug.MessagesActivity"
-            android:theme="@style/Theme.AppCompat.Light" >
+            android:theme="@style/Theme.AppCompat.Light">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
@@ -64,7 +64,7 @@
         </activity>
         <activity
             android:name="com.example.theplug.TransactionsActivity"
-            android:theme="@style/Theme.AppCompat.Light" >
+            android:theme="@style/Theme.AppCompat.Light">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
@@ -73,7 +73,7 @@
         </activity>
         <activity
             android:name="com.example.theplug.NewSaleActivity"
-            android:theme="@style/Theme.AppCompat.Light" >
+            android:theme="@style/Theme.AppCompat.Light">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data

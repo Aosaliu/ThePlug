@@ -2,7 +2,6 @@ package com.example.theplug;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,15 +10,12 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -33,20 +29,17 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 
 public class ViewProductActivity extends AppCompatActivity {
 
     public ImageView ProductImg;
-    public TextView Name , Desc, Price, Comment, SellerUser;
+    public TextView Name, Desc, Price, Comment, SellerUser;
     public String ID = "";
     public String selltype = "";
     public String[] parsedResp;
@@ -61,15 +54,14 @@ public class ViewProductActivity extends AppCompatActivity {
     public static String watchSeller; //check to make sure current user is not same user
     public static String watcher;
 
-   public static ArrayList<String> watchers;
+    public static ArrayList<String> watchers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO)
-        {
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
             setTheme(R.style.lightTheme);
-        }else{
+        } else {
             setTheme(R.style.darkTheme);
         }
         setContentView(R.layout.activity_view_product);
@@ -80,24 +72,21 @@ public class ViewProductActivity extends AppCompatActivity {
         init();
 
 
-
-        addComment.setOnClickListener(new View.OnClickListener()
-        {
+        addComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String cd = commentData.getText().toString();
-                if(cd.equals(null) || cd.trim().equals(""))
-                {
+                if (cd.equals(null) || cd.trim().equals("")) {
                     Toast incorrect = Toast.makeText(getApplicationContext(), "Can't leave an empty comment!", Toast.LENGTH_SHORT);
                     incorrect.show();
-                }else{
+                } else {
                     GetProductData sendC = new GetProductData();
                     sendC.execute("Com", ID, commentData.getText().toString());
                 }
             }
         });
 
-        new  GetProductData().execute("watchlist");
+        new GetProductData().execute("watchlist");
         new GetProductData().execute("checkWatch");
 
         final ArrayList<String> test;
@@ -106,20 +95,20 @@ public class ViewProductActivity extends AppCompatActivity {
         watch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try{
+                try {
 
-                    if(!watchers.contains(MainActivity.storedUsername) && !MainActivity.storedUsername.equals(sellUSER)){
+                    if (!watchers.contains(MainActivity.storedUsername) && !MainActivity.storedUsername.equals(sellUSER)) {
                         watchLIST();
 
-                    }else if(watchers.contains(MainActivity.storedUsername)){
+                    } else if (watchers.contains(MainActivity.storedUsername)) {
                         confirmUnWatched();
 //                        new GetProductData().execute("unWatch", MainActivity.storedUsername, ID);
 //                        Toast.makeText(getApplicationContext(), "You have unWatched this item", Toast.LENGTH_SHORT).show();
 
-                    }else if(MainActivity.storedUsername.equals(sellUSER)){
+                    } else if (MainActivity.storedUsername.equals(sellUSER)) {
                         Toast.makeText(getApplicationContext(), "You can not watch your own item!!", Toast.LENGTH_SHORT).show();
 
-                    }else{
+                    } else {
                         watchLIST();
                     }
 
@@ -131,32 +120,31 @@ public class ViewProductActivity extends AppCompatActivity {
         });
 
 
-        status.setOnClickListener(new View.OnClickListener()
-        {
+        status.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
-                if(!status.getText().toString().equals("Sold")){
-                    if(sellUSER.equals(MainActivity.storedUsername)){
+                if (!status.getText().toString().equals("Sold")) {
+                    if (sellUSER.equals(MainActivity.storedUsername)) {
                         status.setText("Sold");
                         new GetProductData().execute("Status", ID, status.getText().toString());
                         soldProd();
                         //statusTV.setText("Sold");
                         Toast good = Toast.makeText(getApplicationContext(), "Item has been Sold", Toast.LENGTH_SHORT);
                         good.show();
-                    }else{
+                    } else {
                         Toast good = Toast.makeText(getApplicationContext(), "You are not the Origial Owner", Toast.LENGTH_SHORT);
                         good.show();
                     }
-                }else{ //status is "Active"
-                    if(sellUSER.equals(MainActivity.storedUsername)){
+                } else { //status is "Active"
+                    if (sellUSER.equals(MainActivity.storedUsername)) {
                         status.setText("Active");
                         new GetProductData().execute("Status", ID, status.getText().toString());
                         deleteSoldProd();
                         // statusTV.setText("Available");
                         Toast good = Toast.makeText(getApplicationContext(), "Item is Available", Toast.LENGTH_SHORT);
                         good.show();
-                    }else{
+                    } else {
                         Toast good = Toast.makeText(getApplicationContext(), "You are not the Original Owner", Toast.LENGTH_SHORT);
                         good.show();
                     }
@@ -167,22 +155,19 @@ public class ViewProductActivity extends AppCompatActivity {
         placeBid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(bidPrice.getText().toString().equals(""))
-                {
+                if (bidPrice.getText().toString().equals("")) {
                     Toast bad = Toast.makeText(getApplicationContext(), "Please enter an amount up to 5 dollars greater than the current price.", Toast.LENGTH_SHORT);
                     bad.show();
-                }else if(Integer.parseInt(bidPrice.getText().toString()) > Integer.parseInt(Price.getText().toString().substring(1)) + 5)
-                {
+                } else if (Integer.parseInt(bidPrice.getText().toString()) > Integer.parseInt(Price.getText().toString().substring(1)) + 5) {
                     Toast bad = Toast.makeText(getApplicationContext(), "Too high! Please enter an amount up to 5 dollars greater than the current price.", Toast.LENGTH_SHORT);
                     bad.show();
-                }else if(Integer.parseInt(bidPrice.getText().toString()) <= Integer.parseInt(Price.getText().toString().substring(1)))
-                {
+                } else if (Integer.parseInt(bidPrice.getText().toString()) <= Integer.parseInt(Price.getText().toString().substring(1))) {
                     Toast bad = Toast.makeText(getApplicationContext(), "Too low! Please enter an amount up to 5 dollars greater than the current price.", Toast.LENGTH_SHORT);
                     bad.show();
-                } else if(MainActivity.storedUsername.equals(sellUSER)) {
+                } else if (MainActivity.storedUsername.equals(sellUSER)) {
                     Toast bad = Toast.makeText(getApplicationContext(), "Can't bid on your own product!", Toast.LENGTH_SHORT);
                     bad.show();
-                }else{
+                } else {
                     new GetProductData().execute("PlaceBid", ID, MainActivity.storedUsername, bidPrice.getText().toString());
                     Toast good = Toast.makeText(getApplicationContext(), "Bid sent.", Toast.LENGTH_SHORT);
                     good.show();
@@ -193,7 +178,7 @@ public class ViewProductActivity extends AppCompatActivity {
         getData();
     }
 
-    public void init(){
+    public void init() {
         ProductImg = findViewById(R.id.productImg);
         Name = findViewById(R.id.itemNameTextView8);
         Desc = findViewById(R.id.itemDescTextView7);
@@ -210,7 +195,7 @@ public class ViewProductActivity extends AppCompatActivity {
         watch = findViewById(R.id.watchButton);
     }
 
-    public void watchLIST(){
+    public void watchLIST() {
         String name = Name.getText().toString();
         String price = Price.getText().toString();
         String desc = Desc.getText().toString();
@@ -222,8 +207,8 @@ public class ViewProductActivity extends AppCompatActivity {
         String watchStatus = "W";
 
         BitmapDrawable imgView = (BitmapDrawable) ProductImg.getDrawable();
-        String img= "";
-        try{
+        String img = "";
+        try {
             Bitmap itemImg = imgView.getBitmap();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             itemImg.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -233,13 +218,13 @@ public class ViewProductActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-       new TransactionsActivity.productSold().execute("watch", name, price, desc, id, img, user, watcher, watchStatus);
+        new TransactionsActivity.productSold().execute("watch", name, price, desc, id, img, user, watcher, watchStatus);
 
         Toast err = Toast.makeText(ViewProductActivity.this, "Product Added To Watch List", Toast.LENGTH_SHORT);
         err.show();
     }
 
-    public void confirmUnWatched(){
+    public void confirmUnWatched() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Confirm Dialog");
         builder.setMessage("You are about to remove item from watchlist! Are you sure?");
@@ -262,8 +247,8 @@ public class ViewProductActivity extends AppCompatActivity {
         builder.show();
     }
 
-    public void soldProd(){
-        String name  = Name.getText().toString();
+    public void soldProd() {
+        String name = Name.getText().toString();
         String price = Price.getText().toString();
         String desc = Desc.getText().toString();
         String com = Comment.getText().toString();
@@ -272,7 +257,7 @@ public class ViewProductActivity extends AppCompatActivity {
 
         BitmapDrawable imgView = (BitmapDrawable) ProductImg.getDrawable();
         String img = "";
-        try{
+        try {
             Bitmap itemImg = imgView.getBitmap();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             itemImg.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -286,19 +271,20 @@ public class ViewProductActivity extends AppCompatActivity {
 
     }
 
-    public void deleteSoldProd(){
+    public void deleteSoldProd() {
         String name = Name.getText().toString();
         NewProductActivity npa = new NewProductActivity(ViewProductActivity.this);
         npa.execute("sold", name);
 
     }
 
-    public void getData(){
+    public void getData() {
         GetProductData get = new GetProductData();
         get.execute("Data");
 
     }
-    public void getWatchers(){
+
+    public void getWatchers() {
         GetProductData get = new GetProductData();
         get.execute("checkWatch");
     }
@@ -345,7 +331,7 @@ public class ViewProductActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                return  "unWatched";
+                return "unWatched";
 
             } else if (type.equals("checkWatch")) {
                 String response = "";
@@ -603,19 +589,18 @@ public class ViewProductActivity extends AppCompatActivity {
             }
 
 
-    }
+        }
 
         @Override
-        protected void onPostExecute(String s)
-        {
-            if(s.equals("Data Retrieved")) {
+        protected void onPostExecute(String s) {
+            if (s.equals("Data Retrieved")) {
                 new GetProductData().execute("Image");
                 Name.setText(parsedResp[0]);
                 Desc.setText(parsedResp[1]);
                 Price.setText("$" + parsedResp[2]);
                 Comment.setText(parsedResp[3]);
                 SellerUser.setText(parsedResp[4]);
-                try{
+                try {
                     status.setText(parsedResp[5]);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -631,41 +616,38 @@ public class ViewProductActivity extends AppCompatActivity {
                     }
                 });
 
-                if(selltype.equals("1"))
-                {
+                if (selltype.equals("1")) {
                     bidPrice.setVisibility(View.VISIBLE);
                     placeBid.setVisibility(View.VISIBLE);
                     //show bid shit
                 }
 
                 sellUSER = SellerUser.getText().toString();
-            }else if(s.equals("Comment Sent")){
+            } else if (s.equals("Comment Sent")) {
                 finish();
                 startActivity(getIntent());
-            }else if(s.equals("Image Retrieved")){
+            } else if (s.equals("Image Retrieved")) {
                 ProductImg.setImageBitmap(temp);
-                contactSeller.setOnClickListener(new View.OnClickListener(){
+                contactSeller.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(ViewProductActivity.this, ViewMessagesActivity.class);
                         intent.putExtra("Sender", SellerUser.getText().toString());
-                        intent.putExtra("Title", "Inquiry about " +Name.getText().toString());
+                        intent.putExtra("Title", "Inquiry about " + Name.getText().toString());
                         intent.putExtra("Body", "Ask any questions about the item, or discuss a transaction!");
                         startActivity(intent);
                     }
                 });
 
 
-            }else if(s.equals("Status Sent")){
+            } else if (s.equals("Status Sent")) {
                 finish();
                 startActivity(getIntent());
-            }else if(s.equals("Bid Updated Successfully"))
-            {
+            } else if (s.equals("Bid Updated Successfully")) {
                 new GetProductData().execute("BidTable", ID, MainActivity.storedUsername, SellerUser.getText().toString(), Name.getText().toString());
                 finish();
                 startActivity(getIntent());
-            }
-            else {
+            } else {
 
                 super.onPostExecute(s);
             }

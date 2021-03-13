@@ -62,7 +62,7 @@ public class OtherUserProfileActivity extends AppCompatActivity {
         getBuyrate.execute("buyerScore", theirUser);
 
 
-        leaveSellerRating.setOnClickListener(new View.OnClickListener(){
+        leaveSellerRating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(OtherUserProfileActivity.this, ReviewsActivity.class);
@@ -71,7 +71,7 @@ public class OtherUserProfileActivity extends AppCompatActivity {
             }
         });
 
-        leaveBuyerRating.setOnClickListener(new View.OnClickListener(){
+        leaveBuyerRating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(OtherUserProfileActivity.this, ReviewsBuyerActivity.class);
@@ -90,7 +90,7 @@ public class OtherUserProfileActivity extends AppCompatActivity {
                     intent.putExtra("Sender", sellUSER);
                     startActivity(intent);
 
-                }else{
+                } else {
 
                     Toast error = Toast.makeText(getApplicationContext(), "You can not make a report on yourself", Toast.LENGTH_SHORT);
                     error.show();
@@ -101,7 +101,7 @@ public class OtherUserProfileActivity extends AppCompatActivity {
 
     }
 
-    public void init(){
+    public void init() {
 
         otherUser = findViewById(R.id.otherUsername);
         otherUserRating = findViewById(R.id.otherUserAvgRating);
@@ -117,14 +117,13 @@ public class OtherUserProfileActivity extends AppCompatActivity {
     }
 
 
-    class GetProfileDataHelper extends AsyncTask<String, Void, String>
-    {
+    class GetProfileDataHelper extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... strings) {
-            if(strings[0].equals("score")) {
+            if (strings[0].equals("score")) {
                 String response = "";
-                try{
-                    URL url = new URL("https://www-student.cse.buffalo.edu/CSE442-542/2020-spring/cse-442ac/getUserReviewScores.php?un=" +strings[1]);
+                try {
+                    URL url = new URL("https://www-student.cse.buffalo.edu/CSE442-542/2020-spring/cse-442ac/getUserReviewScores.php?un=" + strings[1]);
 
                     HttpURLConnection httpCon;
                     httpCon = (HttpURLConnection) url.openConnection();
@@ -133,7 +132,7 @@ public class OtherUserProfileActivity extends AppCompatActivity {
                     InputStream inStr = httpCon.getInputStream();
                     BufferedReader buffR = new BufferedReader(new InputStreamReader(inStr, "iso-8859-1"));
                     String line = "";
-                    while((line = buffR.readLine()) != null){
+                    while ((line = buffR.readLine()) != null) {
                         response += line;
                     }
                     buffR.close();
@@ -148,10 +147,10 @@ public class OtherUserProfileActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 return "Scores Received";
-            }else if(strings[0].equals("buyerScore")){
+            } else if (strings[0].equals("buyerScore")) {
                 String response = "";
-                try{
-                    URL url = new URL("https://www-student.cse.buffalo.edu/CSE442-542/2020-spring/cse-442ac/getUserReviewBuyerScores.php?un=" +strings[1]);
+                try {
+                    URL url = new URL("https://www-student.cse.buffalo.edu/CSE442-542/2020-spring/cse-442ac/getUserReviewBuyerScores.php?un=" + strings[1]);
 
                     HttpURLConnection httpCon;
                     httpCon = (HttpURLConnection) url.openConnection();
@@ -160,7 +159,7 @@ public class OtherUserProfileActivity extends AppCompatActivity {
                     InputStream inStr = httpCon.getInputStream();
                     BufferedReader buffR = new BufferedReader(new InputStreamReader(inStr, "iso-8859-1"));
                     String line = "";
-                    while((line = buffR.readLine()) != null){
+                    while ((line = buffR.readLine()) != null) {
                         response += line;
                     }
                     buffR.close();
@@ -176,10 +175,9 @@ public class OtherUserProfileActivity extends AppCompatActivity {
                 }
                 return "Buyer Scores Received";
 
-            } else if(strings[0].equals("pfp"))
-            {
+            } else if (strings[0].equals("pfp")) {
                 Bitmap img = null;
-                try{
+                try {
                     URL url = new URL("https://www-student.cse.buffalo.edu/CSE442-542/2020-spring/cse-442ac/retrievePFP.php?un=" + strings[1]);
                     img = BitmapFactory.decodeStream(url.openConnection().getInputStream());
 
@@ -192,45 +190,42 @@ public class OtherUserProfileActivity extends AppCompatActivity {
                 temp = img;
                 return "Image Retrieved";
 
-            }else if(strings[0].equals("report")){
+            } else if (strings[0].equals("report")) {
 
             }
             return "error";
         }
 
         @Override
-        protected void onPostExecute(String s)
-        {
+        protected void onPostExecute(String s) {
             Log.d("HEY", s);
-            if(s.equals("Scores Received")){
+            if (s.equals("Scores Received")) {
                 float scoreAvg = 0;
-                if(scoreList[0].equals("nothing found")){
+                if (scoreList[0].equals("nothing found")) {
                     otherUserRating.setText("No reviews yet.");
-                }else{
-                for (String score : scoreList) {
-                    if(!score.equals("")){
-                        scoreAvg += Integer.parseInt(score);
+                } else {
+                    for (String score : scoreList) {
+                        if (!score.equals("")) {
+                            scoreAvg += Integer.parseInt(score);
+                        }
                     }
-                }
                     scoreAvg = (scoreAvg / scoreList.length);
                     otherUserRating.setText(Float.toString(scoreAvg));
                 }
-            }else if(s.equals("Buyer Scores Received")){
+            } else if (s.equals("Buyer Scores Received")) {
                 float scoreAvg = 0;
-                if(buyerScoreList[0].equals("nothing found")){
+                if (buyerScoreList[0].equals("nothing found")) {
                     buyerRatingValue.setText("No reviews yet.");
-                }else{
-                for (String score : buyerScoreList) {
-                    if(!score.equals("")){
-                        scoreAvg += Integer.parseInt(score);
+                } else {
+                    for (String score : buyerScoreList) {
+                        if (!score.equals("")) {
+                            scoreAvg += Integer.parseInt(score);
+                        }
                     }
-                }
                     scoreAvg = (scoreAvg / buyerScoreList.length);
                     buyerRatingValue.setText(Float.toString(scoreAvg));
                 }
-            }
-            else if(s.equals("Image Retrieved"))
-            {
+            } else if (s.equals("Image Retrieved")) {
                 otherUserPFP.setImageBitmap(temp);
             }
         }

@@ -6,11 +6,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,10 +26,9 @@ public class ProfilePicChangeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO)
-        {
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
             setTheme(R.style.lightTheme);
-        }else{
+        } else {
             setTheme(R.style.darkTheme);
         }
         setContentView(R.layout.activity_profile_pic_change);
@@ -61,7 +58,7 @@ public class ProfilePicChangeActivity extends AppCompatActivity {
         startActivityForResult(galleryIntent, GalVal);
     }
 
-    public void updatePic(){
+    public void updatePic() {
         BitmapDrawable bmd = (BitmapDrawable) profView.getDrawable();
         Bitmap itemImg = bmd.getBitmap();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -81,7 +78,7 @@ public class ProfilePicChangeActivity extends AppCompatActivity {
 
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == GalVal && resultCode == RESULT_OK){
+        if (requestCode == GalVal && resultCode == RESULT_OK) {
             profImage = data.getData();
             profView.setImageURI(profImage);
         }

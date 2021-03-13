@@ -7,10 +7,12 @@
 package androidx.constraintlayout.widget;
 
 public final class R {
-    private R() {}
+    private R() {
+    }
 
     public static final class attr {
-        private attr() {}
+        private attr() {
+        }
 
         public static final int barrierAllowsGoneWidgets = 0x7f020037;
         public static final int barrierDirection = 0x7f020038;
@@ -70,8 +72,10 @@ public final class R {
         public static final int layout_goneMarginTop = 0x7f0200cb;
         public static final int layout_optimizationLevel = 0x7f0200ce;
     }
+
     public static final class id {
-        private id() {}
+        private id() {
+        }
 
         public static final int bottom = 0x7f070025;
         public static final int end = 0x7f070045;
@@ -88,10 +92,12 @@ public final class R {
         public static final int top = 0x7f0700b8;
         public static final int wrap = 0x7f0700c2;
     }
-    public static final class styleable {
-        private styleable() {}
 
-        public static final int[] ConstraintLayout_Layout = { 0x10100c4, 0x101011f, 0x1010120, 0x101013f, 0x1010140, 0x7f020037, 0x7f020038, 0x7f020046, 0x7f020059, 0x7f02005a, 0x7f02009a, 0x7f02009b, 0x7f02009c, 0x7f02009d, 0x7f02009e, 0x7f02009f, 0x7f0200a0, 0x7f0200a1, 0x7f0200a2, 0x7f0200a3, 0x7f0200a4, 0x7f0200a5, 0x7f0200a6, 0x7f0200a7, 0x7f0200a8, 0x7f0200a9, 0x7f0200aa, 0x7f0200ab, 0x7f0200ac, 0x7f0200ad, 0x7f0200ae, 0x7f0200af, 0x7f0200b0, 0x7f0200b1, 0x7f0200b2, 0x7f0200b3, 0x7f0200b4, 0x7f0200b5, 0x7f0200b6, 0x7f0200b7, 0x7f0200b8, 0x7f0200b9, 0x7f0200ba, 0x7f0200bb, 0x7f0200bc, 0x7f0200bd, 0x7f0200be, 0x7f0200bf, 0x7f0200c0, 0x7f0200c1, 0x7f0200c2, 0x7f0200c4, 0x7f0200c5, 0x7f0200c6, 0x7f0200c7, 0x7f0200c8, 0x7f0200c9, 0x7f0200ca, 0x7f0200cb, 0x7f0200ce };
+    public static final class styleable {
+        private styleable() {
+        }
+
+        public static final int[] ConstraintLayout_Layout = {0x10100c4, 0x101011f, 0x1010120, 0x101013f, 0x1010140, 0x7f020037, 0x7f020038, 0x7f020046, 0x7f020059, 0x7f02005a, 0x7f02009a, 0x7f02009b, 0x7f02009c, 0x7f02009d, 0x7f02009e, 0x7f02009f, 0x7f0200a0, 0x7f0200a1, 0x7f0200a2, 0x7f0200a3, 0x7f0200a4, 0x7f0200a5, 0x7f0200a6, 0x7f0200a7, 0x7f0200a8, 0x7f0200a9, 0x7f0200aa, 0x7f0200ab, 0x7f0200ac, 0x7f0200ad, 0x7f0200ae, 0x7f0200af, 0x7f0200b0, 0x7f0200b1, 0x7f0200b2, 0x7f0200b3, 0x7f0200b4, 0x7f0200b5, 0x7f0200b6, 0x7f0200b7, 0x7f0200b8, 0x7f0200b9, 0x7f0200ba, 0x7f0200bb, 0x7f0200bc, 0x7f0200bd, 0x7f0200be, 0x7f0200bf, 0x7f0200c0, 0x7f0200c1, 0x7f0200c2, 0x7f0200c4, 0x7f0200c5, 0x7f0200c6, 0x7f0200c7, 0x7f0200c8, 0x7f0200c9, 0x7f0200ca, 0x7f0200cb, 0x7f0200ce};
         public static final int ConstraintLayout_Layout_android_orientation = 0;
         public static final int ConstraintLayout_Layout_android_maxWidth = 1;
         public static final int ConstraintLayout_Layout_android_maxHeight = 2;
@@ -152,10 +158,10 @@ public final class R {
         public static final int ConstraintLayout_Layout_layout_goneMarginStart = 57;
         public static final int ConstraintLayout_Layout_layout_goneMarginTop = 58;
         public static final int ConstraintLayout_Layout_layout_optimizationLevel = 59;
-        public static final int[] ConstraintLayout_placeholder = { 0x7f02005b, 0x7f020077 };
+        public static final int[] ConstraintLayout_placeholder = {0x7f02005b, 0x7f020077};
         public static final int ConstraintLayout_placeholder_content = 0;
         public static final int ConstraintLayout_placeholder_emptyVisibility = 1;
-        public static final int[] ConstraintSet = { 0x10100c4, 0x10100d0, 0x10100dc, 0x10100f4, 0x10100f5, 0x10100f7, 0x10100f8, 0x10100f9, 0x10100fa, 0x101011f, 0x1010120, 0x101013f, 0x1010140, 0x101031f, 0x1010320, 0x1010321, 0x1010322, 0x1010323, 0x1010324, 0x1010325, 0x1010326, 0x1010327, 0x1010328, 0x10103b5, 0x10103b6, 0x10103fa, 0x1010440, 0x7f020037, 0x7f020038, 0x7f020046, 0x7f02005a, 0x7f02009a, 0x7f02009b, 0x7f02009c, 0x7f02009d, 0x7f02009e, 0x7f02009f, 0x7f0200a0, 0x7f0200a1, 0x7f0200a2, 0x7f0200a3, 0x7f0200a4, 0x7f0200a5, 0x7f0200a6, 0x7f0200a7, 0x7f0200a8, 0x7f0200a9, 0x7f0200aa, 0x7f0200ab, 0x7f0200ac, 0x7f0200ad, 0x7f0200ae, 0x7f0200af, 0x7f0200b0, 0x7f0200b1, 0x7f0200b2, 0x7f0200b3, 0x7f0200b4, 0x7f0200b5, 0x7f0200b6, 0x7f0200b7, 0x7f0200b8, 0x7f0200b9, 0x7f0200ba, 0x7f0200bb, 0x7f0200bc, 0x7f0200bd, 0x7f0200be, 0x7f0200bf, 0x7f0200c0, 0x7f0200c1, 0x7f0200c2, 0x7f0200c4, 0x7f0200c5, 0x7f0200c6, 0x7f0200c7, 0x7f0200c8, 0x7f0200c9, 0x7f0200ca, 0x7f0200cb };
+        public static final int[] ConstraintSet = {0x10100c4, 0x10100d0, 0x10100dc, 0x10100f4, 0x10100f5, 0x10100f7, 0x10100f8, 0x10100f9, 0x10100fa, 0x101011f, 0x1010120, 0x101013f, 0x1010140, 0x101031f, 0x1010320, 0x1010321, 0x1010322, 0x1010323, 0x1010324, 0x1010325, 0x1010326, 0x1010327, 0x1010328, 0x10103b5, 0x10103b6, 0x10103fa, 0x1010440, 0x7f020037, 0x7f020038, 0x7f020046, 0x7f02005a, 0x7f02009a, 0x7f02009b, 0x7f02009c, 0x7f02009d, 0x7f02009e, 0x7f02009f, 0x7f0200a0, 0x7f0200a1, 0x7f0200a2, 0x7f0200a3, 0x7f0200a4, 0x7f0200a5, 0x7f0200a6, 0x7f0200a7, 0x7f0200a8, 0x7f0200a9, 0x7f0200aa, 0x7f0200ab, 0x7f0200ac, 0x7f0200ad, 0x7f0200ae, 0x7f0200af, 0x7f0200b0, 0x7f0200b1, 0x7f0200b2, 0x7f0200b3, 0x7f0200b4, 0x7f0200b5, 0x7f0200b6, 0x7f0200b7, 0x7f0200b8, 0x7f0200b9, 0x7f0200ba, 0x7f0200bb, 0x7f0200bc, 0x7f0200bd, 0x7f0200be, 0x7f0200bf, 0x7f0200c0, 0x7f0200c1, 0x7f0200c2, 0x7f0200c4, 0x7f0200c5, 0x7f0200c6, 0x7f0200c7, 0x7f0200c8, 0x7f0200c9, 0x7f0200ca, 0x7f0200cb};
         public static final int ConstraintSet_android_orientation = 0;
         public static final int ConstraintSet_android_id = 1;
         public static final int ConstraintSet_android_visibility = 2;
@@ -236,7 +242,7 @@ public final class R {
         public static final int ConstraintSet_layout_goneMarginRight = 77;
         public static final int ConstraintSet_layout_goneMarginStart = 78;
         public static final int ConstraintSet_layout_goneMarginTop = 79;
-        public static final int[] LinearConstraintLayout = { 0x10100c4 };
+        public static final int[] LinearConstraintLayout = {0x10100c4};
         public static final int LinearConstraintLayout_android_orientation = 0;
     }
 }

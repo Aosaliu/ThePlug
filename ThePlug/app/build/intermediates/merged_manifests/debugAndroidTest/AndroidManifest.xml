@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.theplug.test" >
+    package="com.example.theplug.test">
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -15,26 +15,26 @@
 
     <uses-permission android:name="android.permission.REORDER_TASKS" />
 
-    <application android:debuggable="true" >
+    <application android:debuggable="true">
         <uses-library android:name="android.test.runner" />
 
         <activity
             android:name="androidx.test.core.app.InstrumentationActivityInvoker$BootstrapActivity"
-            android:theme="@style/InstrumentationActivityInvokerBootstrapActivityTheme" >
+            android:theme="@style/InstrumentationActivityInvokerBootstrapActivityTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
         <activity
             android:name="androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity"
-            android:theme="@style/InstrumentationActivityInvokerEmptyActivityTheme" >
+            android:theme="@style/InstrumentationActivityInvokerEmptyActivityTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
         <activity
             android:name="androidx.test.core.app.InstrumentationActivityInvoker$EmptyFloatingActivity"
-            android:theme="@style/InstrumentationActivityInvokerFloatingActivityTheme" >
+            android:theme="@style/InstrumentationActivityInvokerFloatingActivityTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>

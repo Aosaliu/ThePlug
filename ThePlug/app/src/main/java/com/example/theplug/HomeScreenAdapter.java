@@ -24,7 +24,7 @@ public class HomeScreenAdapter extends RecyclerView.Adapter<HomeScreenAdapter.Vi
     }
 
     @Override
-    public HomeScreenAdapter.ViewHolder onCreateViewHolder( ViewGroup parent, int viewType) {
+    public HomeScreenAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.productrow, parent, false);
         return new ViewHolder(view);
     }
@@ -49,11 +49,11 @@ public class HomeScreenAdapter extends RecyclerView.Adapter<HomeScreenAdapter.Vi
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             ArrayList filteredList = new ArrayList();
-            if(constraint.toString().isEmpty()){
+            if (constraint.toString().isEmpty()) {
                 filteredList.addAll(itemListFull);
-            }else{
-                for(Object item : itemListFull){
-                    if(item.toString().toLowerCase().contains(constraint.toString().toLowerCase())){
+            } else {
+                for (Object item : itemListFull) {
+                    if (item.toString().toLowerCase().contains(constraint.toString().toLowerCase())) {
                         filteredList.add(item);
                     }
                 }
@@ -67,9 +67,9 @@ public class HomeScreenAdapter extends RecyclerView.Adapter<HomeScreenAdapter.Vi
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-                itemList.clear();
-                itemList.addAll((Collection) results.values);
-                notifyDataSetChanged();
+            itemList.clear();
+            itemList.addAll((Collection) results.values);
+            notifyDataSetChanged();
         }
     };
 

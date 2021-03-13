@@ -1,7 +1,5 @@
 package com.example.theplug;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -17,7 +15,6 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLEncoder;
 
 public class BackgroundActivity extends AsyncTask<String, Void, String> {
@@ -25,8 +22,7 @@ public class BackgroundActivity extends AsyncTask<String, Void, String> {
     Context con;
     String un;
 
-    BackgroundActivity(Context c)
-    {
+    BackgroundActivity(Context c) {
         con = c;
     }
 
@@ -36,8 +32,7 @@ public class BackgroundActivity extends AsyncTask<String, Void, String> {
         String signupScript = "https://www-student.cse.buffalo.edu/CSE442-542/2020-spring/cse-442ac/signupSEC.php";
         String profileScript = "https://www-student.cse.buffalo.edu/CSE442-542/2020-spring/cse-442ac/profilePicture.php";
         String check = params[0];
-        if(check.equals("login"))
-        {
+        if (check.equals("login")) {
             try { //PARAMS[2] IS EMAIL, PARAMS[1] IS PASS
                 String email = params[2];
                 un = email;
@@ -49,8 +44,8 @@ public class BackgroundActivity extends AsyncTask<String, Void, String> {
                 httpCon.setDoInput(true);
                 OutputStream outStr = httpCon.getOutputStream();
                 BufferedWriter buffW = new BufferedWriter(new OutputStreamWriter(outStr, "UTF-8"));
-                String req = URLEncoder.encode("un","UTF-8") + "=" +URLEncoder.encode(email, "UTF-8")
-                        +"&" +URLEncoder.encode("pw","UTF-8") + "=" +URLEncoder.encode(pass, "UTF-8");
+                String req = URLEncoder.encode("un", "UTF-8") + "=" + URLEncoder.encode(email, "UTF-8")
+                        + "&" + URLEncoder.encode("pw", "UTF-8") + "=" + URLEncoder.encode(pass, "UTF-8");
                 buffW.write(req);
                 buffW.flush();
                 buffW.close();
@@ -60,8 +55,7 @@ public class BackgroundActivity extends AsyncTask<String, Void, String> {
                 BufferedReader buffR = new BufferedReader(new InputStreamReader(inStr, "iso-8859-1"));
                 String result = "";
                 String line = "";
-                while((line = buffR.readLine()) != null)
-                {
+                while ((line = buffR.readLine()) != null) {
                     result += line;
                 }
                 buffR.close();
@@ -73,11 +67,11 @@ public class BackgroundActivity extends AsyncTask<String, Void, String> {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }else if(check.equals("signup")){
+        } else if (check.equals("signup")) {
             try {
                 String email = params[1];
                 String pass = params[2];
-                String first  =  params[3];
+                String first = params[3];
                 String last = params[4];
                 URL url = new URL(signupScript);
                 HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
@@ -86,10 +80,10 @@ public class BackgroundActivity extends AsyncTask<String, Void, String> {
                 httpCon.setDoInput(true);
                 OutputStream outStr = httpCon.getOutputStream();
                 BufferedWriter buffW = new BufferedWriter(new OutputStreamWriter(outStr, "UTF-8"));
-                String req = URLEncoder.encode("un","UTF-8") + "=" +URLEncoder.encode(email, "UTF-8")
-                        +"&"+  URLEncoder.encode("pw","UTF-8") + "=" +URLEncoder.encode(pass, "UTF-8")
-                        +"&"+  URLEncoder.encode("fn","UTF-8") + "=" +URLEncoder.encode(first, "UTF-8")
-                        +"&"+  URLEncoder.encode("ln","UTF-8") + "=" +URLEncoder.encode(last, "UTF-8");
+                String req = URLEncoder.encode("un", "UTF-8") + "=" + URLEncoder.encode(email, "UTF-8")
+                        + "&" + URLEncoder.encode("pw", "UTF-8") + "=" + URLEncoder.encode(pass, "UTF-8")
+                        + "&" + URLEncoder.encode("fn", "UTF-8") + "=" + URLEncoder.encode(first, "UTF-8")
+                        + "&" + URLEncoder.encode("ln", "UTF-8") + "=" + URLEncoder.encode(last, "UTF-8");
                 buffW.write(req);
                 buffW.flush();
                 buffW.close();
@@ -99,8 +93,7 @@ public class BackgroundActivity extends AsyncTask<String, Void, String> {
                 BufferedReader buffR = new BufferedReader(new InputStreamReader(inStr, "iso-8859-1"));
                 String result = "";
                 String line = "";
-                while((line = buffR.readLine()) != null)
-                {
+                while ((line = buffR.readLine()) != null) {
                     result += line;
                 }
                 buffR.close();
@@ -112,8 +105,7 @@ public class BackgroundActivity extends AsyncTask<String, Void, String> {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }else if(check.equals("profile"))
-        {
+        } else if (check.equals("profile")) {
             try { //PARAMS[1] IS USERNAME, PARAMS[2] IS ENCODED IMAGE
                 URL url = new URL(profileScript);
                 HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
@@ -122,8 +114,8 @@ public class BackgroundActivity extends AsyncTask<String, Void, String> {
                 httpCon.setDoInput(true);
                 OutputStream outStr = httpCon.getOutputStream();
                 BufferedWriter buffW = new BufferedWriter(new OutputStreamWriter(outStr, "UTF-8"));
-                String req = URLEncoder.encode("un","UTF-8") + "=" +URLEncoder.encode(params[1], "UTF-8")
-                        +"&" +URLEncoder.encode("pic","UTF-8") + "=" +URLEncoder.encode(params[2], "UTF-8");
+                String req = URLEncoder.encode("un", "UTF-8") + "=" + URLEncoder.encode(params[1], "UTF-8")
+                        + "&" + URLEncoder.encode("pic", "UTF-8") + "=" + URLEncoder.encode(params[2], "UTF-8");
                 buffW.write(req);
                 buffW.flush();
                 buffW.close();
@@ -133,8 +125,7 @@ public class BackgroundActivity extends AsyncTask<String, Void, String> {
                 BufferedReader buffR = new BufferedReader(new InputStreamReader(inStr, "iso-8859-1"));
                 String result = "";
                 String line = "";
-                while((line = buffR.readLine()) != null)
-                {
+                while ((line = buffR.readLine()) != null) {
                     result += line;
                 }
                 buffR.close();
@@ -157,20 +148,20 @@ public class BackgroundActivity extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String aStr) {
-        if(aStr.equals("Login Successful")) {
+        if (aStr.equals("Login Successful")) {
             MainActivity.storedUsername = un;
             Intent intent = new Intent(con, HomeScreen.class);
             con.startActivity(intent);
-        }else if(aStr.equals("Registration Successful")) {
+        } else if (aStr.equals("Registration Successful")) {
             Toast reg = Toast.makeText(con, "Registered Successfully!", Toast.LENGTH_SHORT);
             reg.show();
-        }else if(aStr.equals("Profile Picture Uploaded Successfully")){
+        } else if (aStr.equals("Profile Picture Uploaded Successfully")) {
             Toast upl = Toast.makeText(con, "Picture Updated.", Toast.LENGTH_SHORT);
             upl.show();
-        }else if(aStr.startsWith("Your account has been banned.")) {
+        } else if (aStr.startsWith("Your account has been banned.")) {
             Toast ban = Toast.makeText(con, aStr, Toast.LENGTH_SHORT);
             ban.show();
-        }else{
+        } else {
             Toast incorrect = Toast.makeText(con, "ERROR!!! Please Try Again", Toast.LENGTH_SHORT);
             incorrect.show();
         }

@@ -47,10 +47,9 @@ public class ReviewsBuyerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO)
-        {
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_NO) {
             setTheme(R.style.lightTheme);
-        }else{
+        } else {
             setTheme(R.style.darkTheme);
         }
         setContentView(R.layout.activity_reviews_buyer);
@@ -62,13 +61,12 @@ public class ReviewsBuyerActivity extends AppCompatActivity {
         senderUser.setText(extras.getString("Sender"));
         sendR.execute("Image", senderUser.getText().toString());
 
-        submitReview.setOnClickListener(new View.OnClickListener()
-        {
+        submitReview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             //   String cd = msg.getText().toString();
+                //   String cd = msg.getText().toString();
                 String rateInput = rate.getText().toString();
-                if(!rateInput.equals("1") && !rateInput.equals("2") && !rateInput.equals("3") && !rateInput.equals("4") && !rateInput.equals("5") && !rateInput.equals("0") ){
+                if (!rateInput.equals("1") && !rateInput.equals("2") && !rateInput.equals("3") && !rateInput.equals("4") && !rateInput.equals("5") && !rateInput.equals("0")) {
                     Toast incorrect = Toast.makeText(getApplicationContext(), "Rating must be a number 0-5.", Toast.LENGTH_SHORT);
                     incorrect.show();
                 }
@@ -77,19 +75,19 @@ public class ReviewsBuyerActivity extends AppCompatActivity {
 //                    Toast incorrect = Toast.makeText(getApplicationContext(), "Can't leave an empty review!", Toast.LENGTH_SHORT);
 //                    incorrect.show();
 //                }
-                else{
+                else {
                     BackgroundReviewBuyerHelper sendReview = new BackgroundReviewBuyerHelper();
                     int checkNum = Integer.parseInt(rate.getText().toString());
-                    if(checkNum > 5 || checkNum < 0){
+                    if (checkNum > 5 || checkNum < 0) {
                         Toast error = Toast.makeText(ReviewsBuyerActivity.this, "ERROR: Rating can not be less than 0 or more than 5", Toast.LENGTH_SHORT);
                         error.show();
-                    }else{
+                    } else {
                         String sender = senderUser.getText().toString();
                         String prodUser = storedUsername;
-                        if(sender.equals(prodUser)){
+                        if (sender.equals(prodUser)) {
                             Toast incorrect = Toast.makeText(getApplicationContext(), "Can't leave reviews on yourself", Toast.LENGTH_SHORT);
                             incorrect.show();
-                        }else {
+                        } else {
                             sendReview.execute("Send", prodUser, sender, rate.getText().toString());
 
                         }
@@ -101,15 +99,15 @@ public class ReviewsBuyerActivity extends AppCompatActivity {
 
         BackgroundReviewBuyerHelper sendL = new BackgroundReviewBuyerHelper();
         sendL.execute("score", senderUser.getText().toString());
-      //  rateUser.setText("testing");
+        //  rateUser.setText("testing");
 
     }
 
-    public void init(){
+    public void init() {
         senderPF = findViewById(R.id.sellPFP);
         senderUser = findViewById(R.id.tV6);
         rateUser = findViewById(R.id.tV7);
-       // msg = findViewById(R.id.reviewBuyerMsg);
+        // msg = findViewById(R.id.reviewBuyerMsg);
         rate = findViewById(R.id.editRatingBuyer);
         submitReview = findViewById(R.id.sendReviewBuyer);
         prodList = findViewById(R.id.rV);
@@ -117,7 +115,7 @@ public class ReviewsBuyerActivity extends AppCompatActivity {
 
     }
 
-    class BackgroundReviewBuyerHelper extends AsyncTask<String,  Void, String> {
+    class BackgroundReviewBuyerHelper extends AsyncTask<String, Void, String> {
 
         String[] scoreList;
         String[] parsedResp;
@@ -126,9 +124,9 @@ public class ReviewsBuyerActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... strings) {
             String type = strings[0];
-            if(type.equals("Image")){
+            if (type.equals("Image")) {
                 Bitmap img = null;
-                try{
+                try {
                     URL url = new URL("https://www-student.cse.buffalo.edu/CSE442-542/2020-spring/cse-442ac/retrievePFP.php?un=" + strings[1]);
                     img = BitmapFactory.decodeStream(url.openConnection().getInputStream());
 
@@ -140,11 +138,11 @@ public class ReviewsBuyerActivity extends AppCompatActivity {
 
                 temp = img;
                 return "Image Retrieved";
-            }else if(type.equals("Send")){  //copy and adjust php file so that it sends reviews for buyers
-                try{
+            } else if (type.equals("Send")) {  //copy and adjust php file so that it sends reviews for buyers
+                try {
                     String sender = strings[1];
                     String recip = strings[2];
-                   // String msg = strings[3];
+                    // String msg = strings[3];
                     String rate = strings[3];
                     URL url = new URL("https://www-student.cse.buffalo.edu/CSE442-542/2020-spring/cse-442ac/sendReviewBuyer.php");
 
@@ -154,10 +152,10 @@ public class ReviewsBuyerActivity extends AppCompatActivity {
                     httpCon.setDoOutput(true);
                     httpCon.setDoInput(true);
                     OutputStream outStr = httpCon.getOutputStream();
-                    BufferedWriter buffW = new BufferedWriter(new OutputStreamWriter(outStr,"UTF-8"));
+                    BufferedWriter buffW = new BufferedWriter(new OutputStreamWriter(outStr, "UTF-8"));
                     String req = URLEncoder.encode("frm", "UTF-8") + "=" + URLEncoder.encode(sender, "UTF-8")
                             + "&" + URLEncoder.encode("to", "UTF-8") + "=" + URLEncoder.encode(recip, "UTF-8")
-                          //  + "&" + URLEncoder.encode("msg", "UTF-8") + "=" + URLEncoder.encode(msg, "UTF-8")
+                            //  + "&" + URLEncoder.encode("msg", "UTF-8") + "=" + URLEncoder.encode(msg, "UTF-8")
                             + "&" + URLEncoder.encode("rate", "UTF-8") + "=" + URLEncoder.encode(rate, "UTF-8");
                     buffW.write(req);
                     buffW.flush();
@@ -168,7 +166,7 @@ public class ReviewsBuyerActivity extends AppCompatActivity {
                     BufferedReader buffR = new BufferedReader(new InputStreamReader(inStr, "iso-8859-1"));
                     String result = "";
                     String line = "";
-                    while((line = buffR.readLine()) != null){
+                    while ((line = buffR.readLine()) != null) {
                         result += line;
                     }
                     buffR.close();
@@ -182,11 +180,10 @@ public class ReviewsBuyerActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 return "Review Sent";
-            }
-            else if(type.equals("list")){
+            } else if (type.equals("list")) {
                 @SuppressLint("WrongThread") String name = senderUser.getText().toString();
                 String response = "";
-                try{
+                try {
                     URL url = new URL("https://www-student.cse.buffalo.edu/CSE442-542/2020-spring/cse-442ac/getReviews.php?un=" + name);
 
                     HttpURLConnection httpCon;
@@ -196,7 +193,7 @@ public class ReviewsBuyerActivity extends AppCompatActivity {
                     InputStream inStr = httpCon.getInputStream();
                     BufferedReader buffR = new BufferedReader(new InputStreamReader(inStr, "iso-8859-1"));
                     String line = "";
-                    while((line = buffR.readLine()) != null){
+                    while ((line = buffR.readLine()) != null) {
                         response += line;
                     }
                     buffR.close();
@@ -211,10 +208,10 @@ public class ReviewsBuyerActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 return "Reviews Recieved";
-            }else if(type.equals("score")) {
+            } else if (type.equals("score")) {
                 String response = "";
-                try{
-                    URL url = new URL("https://www-student.cse.buffalo.edu/CSE442-542/2020-spring/cse-442ac/getUserReviewBuyerScores.php?un=" +strings[1]);
+                try {
+                    URL url = new URL("https://www-student.cse.buffalo.edu/CSE442-542/2020-spring/cse-442ac/getUserReviewBuyerScores.php?un=" + strings[1]);
 
                     HttpURLConnection httpCon;
                     httpCon = (HttpURLConnection) url.openConnection();
@@ -223,7 +220,7 @@ public class ReviewsBuyerActivity extends AppCompatActivity {
                     InputStream inStr = httpCon.getInputStream();
                     BufferedReader buffR = new BufferedReader(new InputStreamReader(inStr, "iso-8859-1"));
                     String line = "";
-                    while((line = buffR.readLine()) != null){
+                    while ((line = buffR.readLine()) != null) {
                         response += line;
                     }
                     buffR.close();
@@ -244,20 +241,15 @@ public class ReviewsBuyerActivity extends AppCompatActivity {
 
         @SuppressLint("SetTextI18n")
         @Override
-        protected void onPostExecute(String s)
-        {
+        protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            if(s.equals("Image Retrieved"))
-            {
+            if (s.equals("Image Retrieved")) {
                 senderPF.setImageBitmap(temp);
-            }
-            else if(s.equals("Review Submitted"))
-            {
+            } else if (s.equals("Review Submitted")) {
                 Toast good = Toast.makeText(getApplicationContext(), "Review Submitted", Toast.LENGTH_SHORT);
                 good.show();
                 finish();
-            }
-            else if(s.equals("Reviews Recieved")) {
+            } else if (s.equals("Reviews Recieved")) {
                 if (parsedResp.length == 0) {
                     Toast noMsg = Toast.makeText(ReviewsBuyerActivity.this, "No Reviews made for this Seller", Toast.LENGTH_SHORT);
                     noMsg.show();
@@ -277,13 +269,13 @@ public class ReviewsBuyerActivity extends AppCompatActivity {
                     prodList.setAdapter(mAdapter);
                 }
 
-                }else if (s.equals("Scores Recieved")) {
+            } else if (s.equals("Scores Recieved")) {
                 float scoreAvg = 0;
-                if(scoreList[0].equals("nothing found")){
+                if (scoreList[0].equals("nothing found")) {
                     rateUser.setText("No reviews yet.");
-                }else{
+                } else {
                     for (String score : scoreList) {
-                        if(!score.equals("")){
+                        if (!score.equals("")) {
                             scoreAvg += Integer.parseInt(score);
                         }
                     }
