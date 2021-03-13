@@ -1,3 +1,4 @@
-# Welcome to Our Project
-To install and run our project here are the steps required:
-1. _Fill this in as you work on your project_
+# Welcome to ThePlug
+
+This is a platform for users to buy and sell products that they may no longer need.
+
